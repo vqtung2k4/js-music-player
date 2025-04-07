@@ -8,6 +8,7 @@ const cd = $('.cd')
 const header = $('header h2')
 const cdThumb = $('.cd-thumb')
 const audio = $('#audio')
+const volume = $('#volume')
 const playBtn = $('.btn-toggle-play')
 const progress = $('#progress')
 const prevBtn = $('.btn-prev')
@@ -48,49 +49,7 @@ const app = {
             singer: 'Dung Hoang Pham',
             path: './music/4.mp3',
             image: './img/4.jpg'
-        },
-        {
-            name: 'Anh Thoi Nhan Nhuong',
-            singer: 'Dung Hoang Pham',
-            path: './music/5.mp3',
-            image: './img/5.jpg'
-        },
-        {
-            name: 'Anh Thoi Nhan Nhuong',
-            singer: 'Dung Hoang Pham',
-            path: './music/6.mp3',
-            image: './img/6.jpg'
-        },
-        {
-            name: 'Anh Thoi Nhan Nhuong',
-            singer: 'Dung Hoang Pham',
-            path: './music/7.mp3',
-            image: './img/7.jpg'
-        },
-        {
-            name: 'Anh Thoi Nhan Nhuong',
-            singer: 'Dung Hoang Pham',
-            path: './music/8.mp3',
-            image: './img/8.jpg'
-        },
-        {
-            name: 'Anh Thoi Nhan Nhuong',
-            singer: 'Dung Hoang Pham',
-            path: './music/8.mp3',
-            image: './img/8.jpg'
-        },
-        {
-            name: 'Anh Thoi Nhan Nhuong',
-            singer: 'Dung Hoang Pham',
-            path: './music/8.mp3',
-            image: './img/8.jpg'
-        },
-        {
-            name: 'Anh Thoi Nhan Nhuong',
-            singer: 'Dung Hoang Pham',
-            path: './music/8.mp3',
-            image: './img/8.jpg'
-        },
+        }
     ],
 
     setConfig: function(key, value) {
@@ -121,7 +80,7 @@ const app = {
     defineProperties: function () {
         Object.defineProperty(this, 'currentSong', {
             get: function () {
-                return this.songs[this.currentIndex]  //Tai sao lai la 'this.currentIndex'
+                return this.songs[this.currentIndex]
             }
         })
     },
@@ -145,6 +104,12 @@ const app = {
             // console.log(newCdWidth)
             cd.style.width = newCdWidth + 'px'
             cd.style.opacity = newCdWidth / cdWidth
+        }
+
+        //Handle change volume
+        volume.oninput = function(e) {
+            audio.volume = e.target.value / 100
+            _this.setConfig('volume', e.target.value)
         }
 
         //Handle play button
@@ -259,6 +224,8 @@ const app = {
     loadConfig: function() {
         this.isRandom = this.config.isRandom || false
         this.isRepeat = this.config.isRepeat || false
+        audio.volume = (this.config.volume || 50) / 100
+        volume.value = (this.config.volume || 50)
     },
 
     nextSong: function () {
